@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="customer_request_accounting_system.MainPage">
+    <ContentPage.ToolbarItems >
+        <ToolbarItem 
+            Text="Список сотрудников"
+            Command="{Binding OpenListEmployeeCommand}"
+            Order="Primary"
+            Priority="0" />
+        <ToolbarItem 
+            Text="Список клиентов"
+            Command="{Binding OpenListCustomerCommand}"
+            Order="Primary"
+            Priority="1" />
+        <ToolbarItem 
+            Text="Создать новую заявку"
+            Command="{Binding CreateRequestCommand}"
+            Order="Primary"
+            Priority="3" />
+    </ContentPage.ToolbarItems>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <ScrollView Grid.Row="0">
+            <ListView ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+                            <Border >
+                                <StackLayout Orientation="Vertical" Spacing="2">
+                                    <Label Text="{Binding Id, StringFormat='ID:   {0}'}" FontSize="18" FontAttributes="Bold"/>
+                                    <Label Text="{Binding ClientId, StringFormat='ID клиента:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding ClientName, StringFormat='ФИО клиента:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding Status, StringFormat='Статус заявки:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding Description, StringFormat='Описание:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding AssignedEmployee, StringFormat='ID ответственного работника:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding EmployeeName, StringFormat='ФИО ответственного сотрудника:   {0}'}"/>
+                                    <Label Text="{Binding ResolutionDate, StringFormat='Дата закрытия заявки:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding Priority, StringFormat='Приоритет заявки:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding Category, StringFormat='Категория заявки:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding CreateRequestDate, StringFormat='Дата создания заявки:   {0}'}" FontSize="14"/>
+                                </StackLayout>
+                            </Border>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
+
+        <Grid Grid.Row="1" ColumnDefinitions="150,*" VerticalOptions="Center" >
+
+            <!-- Левая кнопка -->
+           <Button Text="Обновить список" Margin="10" FontSize="12" Command="{Binding UpdateListButtonCommand}" 
+            HorizontalOptions="Start" Grid.Column="0"/> 
+
+            <!-- Остальные кнопки, выровненные по центру -->
+            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1">
+                <Button Text="Изменить" Margin="10" Command="{Binding EditButtonCommand}" />
+                <Button Text="Удалить" Margin="10" Command="{Binding DeleteButtonCommand}" />
+            </StackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="customer_request_accounting_system.Views.CustomersListPage"
+             Title="Список клиентов">
+    <ContentPage.ToolbarItems >
+        <ToolbarItem 
+         Text="Назад"
+         Command="{Binding BackButtonCommand}"
+         Order="Primary"
+         Priority="0" />
+    </ContentPage.ToolbarItems>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <ScrollView Grid.Row="0">
+            <ListView ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+                            <Border >
+                                <StackLayout Orientation="Vertical" Spacing="2">
+                                    <Label Text="{Binding Id, StringFormat='ID:   {0}'}" FontSize="18" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Name, StringFormat='ФИО клиента:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding Phone, StringFormat='Номер телефона:   {0}'}" FontSize="14"/>
+                                    <Label Text="{Binding CityOfResidence, StringFormat='Город:   {0}'}" FontSize="14"/>
+                                </StackLayout>
+                            </Border>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
+        <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1">
+            <Button Text="Добавить" Margin="10" Command="{Binding AddButtonCommand}"/>
+            <Button Text="Изменить" Margin="10" Command="{Binding EditButtonCommand}" />
+            <Button Text="Удалить" Margin="10" Command="{Binding DeleteButtonCommand}" />
+        </StackLayout>
+    </Grid>
+</ContentPage>

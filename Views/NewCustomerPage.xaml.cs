@@ -1,0 +1,14 @@
+using customer_request_accounting_system.EntityFramework;
+using customer_request_accounting_system.ViewModels;
+
+namespace customer_request_accounting_system.Views;
+
+public partial class NewCustomerPage : ContentPage
+{
+    private readonly AppDbContext _dbContext = new AppDbContext();
+    public NewCustomerPage()
+	{
+        InitializeComponent();
+        BindingContext = new NewCustomerViewModel(Navigation, _dbContext);
+	}
+}
