@@ -3,63 +3,61 @@ using CommunityToolkit.Mvvm.Input;
 using customer_request_accounting_system.EntityFramework;
 using customer_request_accounting_system.Models;
 using customer_request_accounting_system.Views;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
 namespace customer_request_accounting_system.ViewModels
 {
-    public partial  class CustomersListViewModel : ObservableObject
+    public partial class EmployeesListViewModel : ObservableObject 
     {
         private readonly AppDbContext _context;
         private readonly INavigation _navigation;
-        public CustomersListViewModel(INavigation navigation, AppDbContext context)
+        public EmployeesListViewModel(INavigation navigation, AppDbContext context)
         {
-            _context = context;
             _navigation = navigation;
-            LoadCustomers();
+            _context = context;
+            LoadEmployees();
         }
 
         [ObservableProperty]
-        private ObservableCollection<Customer> customers;
+        public ObservableCollection<Employee> employees;
         [ObservableProperty]
-        public Customer? selectedCustomer;
+        public Employee? selectedEmployee;
 
-        // метод обновления списка
-        public void LoadCustomers()
-        {
-            var list = _context.Customers.ToList();
-            Customers = new ObservableCollection<Customer>(list);
-        }
-
-        // кнопка назад
         [RelayCommand]
-        async Task BackButton()
+        private void LoadEmployees()
         {
-            await _navigation.PopAsync();
+            var list = _context.Employees.ToList();
+            Employees = new ObservableCollection<Employee>(list);
         }
 
         // кнопка обновления списка
         [RelayCommand]
         private void UpdateListButton()
         {
-            LoadCustomers();
+            LoadEmployees();
         }
 
-        // окно создания клиента
+        [RelayCommand]
+        async Task BackButton()
+        {
+            await _navigation.PopAsync();
+        }
+
+        // окно создания сотрудника
         [RelayCommand]
         async Task AddButton()
         {
-            await _navigation.PushModalAsync(new NewCustomerPage());
-            
+            await _navigation.PushModalAsync(new NewEmployeePage());
+
         }
 
         // кнопка удаления данных выбранного клиента
         [RelayCommand]
         private void DeleteButton()
         {
-            if (SelectedCustomer == null)
+            if (SelectedEmployee == null)
                 return;
-            _context.Customers.Remove(SelectedCustomer);
+            _context.Employees.Remove(SelectedEmployee);
             _context.SaveChanges();
         }
 

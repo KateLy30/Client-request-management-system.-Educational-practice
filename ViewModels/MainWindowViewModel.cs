@@ -13,6 +13,11 @@ using System.Threading.Tasks;
 
 namespace customer_request_accounting_system.ViewModels
 {
+    //TODO: удалить поля ФИО при создании нового объекта
+    //TODO: реализовать кнопку редактировать 
+    //TODO: добавить функции поиска и фильтрации
+    //TODO: добавить обработку ошибок и валидацию данных
+    //TODO: в списке заявок исправить индекс списка на текст
     public partial class MainWindowViewModel : ObservableObject
     {
         private readonly AppDbContext _context;
@@ -21,43 +26,63 @@ namespace customer_request_accounting_system.ViewModels
         {
             _navigation = navigation;
             _context = context;
-            LoadRequestsAsync();
+            LoadRequests();
         }
 
         [ObservableProperty]
         private ObservableCollection<Request> requests;
-
-        [RelayCommand]
-        private async Task LoadRequestsAsync()
-        {
-            var list = await _context.Requests.ToListAsync();
-            Requests = new ObservableCollection<Request>(list);
-        }
-
-
         [ObservableProperty]
         public Request? selectedRequest;
 
+        // метод обновления списка
+        [RelayCommand]
+        private void LoadRequests()
+        {
+            var list = _context.Requests.ToList();
+            Requests = new ObservableCollection<Request>(list);
+        }
+
+        // окно создание новой заявки
         [RelayCommand]
         private async Task CreateRequest()
         {
             await _navigation.PushModalAsync(new NewRequestPage());
         }
 
+        // кнопка удаление выбранной заявки
         [RelayCommand]
-        async Task EditButton()
+        private void DeleteButton()
         {
-        }
-        [RelayCommand]
-        private async Task UpdateListButton()
-        {
-           await LoadRequestsAsync();
+            if (SelectedRequest == null)
+                return;
+            _context.Requests.Remove(SelectedRequest);
+            _context.SaveChanges();
         }
 
+        // кнопка редактирование выбранной заявки
+        [RelayCommand]
+        private void EditButton()
+        {
+        }
+
+        // кнопка обновления списка
+        [RelayCommand]
+        private void UpdateListButton()
+        {
+           LoadRequests();
+        }
+
+        // окно списка клиентов
         [RelayCommand]
         async Task OpenListCustomer()
         {
             await _navigation.PushAsync(new CustomersListPage());
+        }
+
+        [RelayCommand]
+        async Task OpenListEmployee()
+        {
+            await _navigation.PushAsync(new EmployeesListPage());
         }
 
     }

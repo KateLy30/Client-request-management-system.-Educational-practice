@@ -1,6 +1,4 @@
-﻿using customer_request_accounting_system.EntityFramework;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace customer_request_accounting_system
 {

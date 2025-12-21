@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="customer_request_accounting_system.Views.NewRequestPage"
-             Title="Создание новой заявки"
+             x:Class="customer_request_accounting_system.Views.NewEmployeePage"
              xmlns:viewModel="clr-namespace:customer_request_accounting_system.ViewModels"
-             x:DataType="viewModel:NewRequestViewModel">
+             x:DataType="viewModel:NewEmployeeViewModel"
+             Title="Добавление нового сотрудника">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Label">
@@ -25,42 +25,41 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="3">
-            <Label Text="Идентификатор клиента" />
-            <Entry Text="{Binding IdClient, Mode=TwoWay}"/>
+            <Label Text="ФИО" />
+            <Entry Text="{Binding Name}" Margin="0,0,0,5"/>
 
-            <Entry Placeholder="ФИО клиента" IsReadOnly="True"  Text="{Binding NameClient}" Margin="0,0,0,5"/>
-
-            <Label Text="Статус заявки"/>
-            <Picker SelectedItem="0" SelectedIndex="{Binding Status}" Margin="0,0,0,5">
-                <Picker.Items>
-                    <x:String>Новая</x:String>
-                </Picker.Items>
-            </Picker>
-
-            <Label Text="Описание"/>
-            <Editor Text="{Binding Description}" AutoSize="TextChanges" Margin="0,0,0,5"/>
-
-            <Label Text="Идентификатор ответственного сотрудника"/>
-            <Entry Text="{Binding IdEmployee}"/>
-            <Entry Text="{Binding NameEmployee}" Placeholder="ФИО ответственного сотрудника" IsReadOnly="True" Margin="0,0,0,5"/>
+            <Label Text="Номер телефона"/>
+            <Entry Text="{Binding Phone}" Margin="0,0,0,5"/>
             
-            <Label Text="Приоритет"/>
-            <Picker SelectedIndex="{Binding PriorityRequest}" Margin="0,0,0,5">
+            <Label Text="Почта"/>
+            <Entry Text="{Binding Email}" Margin="0,0,0,5"/>
+
+            <Label Text="Отдел"/>
+            <Picker SelectedItem="1" SelectedIndex="{Binding Department}" Margin="0,0,0,5">
                 <Picker.Items>
-                    <x:String>Низкий</x:String>
-                    <x:String>Средний</x:String>
-                    <x:String>Высокий</x:String>
+                    <x:String>Тех. поддержка</x:String>
                 </Picker.Items>
             </Picker>
 
-            <Label Text="Категория"/>
-            <Entry Text="{Binding CategoryRequest}" Margin="0,0,0,5"/>
+            <Label Text="Должность"/>
+            <Picker SelectedIndex="{Binding Post}" Margin="0,0,0,5">
+                <Picker.Items>
+                    <x:String>Младший специалист тех. поддержки</x:String>
+                    <x:String>Старший специалист тех. поддержки</x:String>
+                    <x:String>Администратор системы</x:String>
+                    <x:String>Инженер тех. поддержки</x:String>
+                    <x:String>Руководитель группы тех. поддержки</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="Дата приема на работу"/>
+            <Entry Text="{Binding DateOfEmployment}" Margin="0,0,0,5"/>
 
             <HorizontalStackLayout Padding="10" HorizontalOptions="Center" VerticalOptions="Center">
                 <Button Text="Ок" Margin="10" Command="{Binding ClickOkButtonCommand}"/>
                 <Button Text="Отмена" Margin="10" Command="{Binding ClickCancelButtonCommand}"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
-        
+
     </ScrollView>
 </ContentPage>

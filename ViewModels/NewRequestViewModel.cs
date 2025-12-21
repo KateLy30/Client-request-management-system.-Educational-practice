@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using customer_request_accounting_system.EntityFramework;
 using customer_request_accounting_system.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,30 +44,49 @@ namespace customer_request_accounting_system.ViewModels
         [RelayCommand]
         async Task ClickOkButton()
         {
-            Request request = new Request
+            using (var dbcontext = new AppDbContext())
             {
-                ClientId = IdClient,
-                AssignedEmployee = IdEmployee,
-                Status = Status,
-                Description = Description,
-                CreateRequestDate = DateTime.Now,
-                Priority = PriorityRequest,
-                Category = CategoryRequest
-            };
+                var transaction = dbcontext.Database.BeginTransaction();
+                try
+                {
+                    var client = dbcontext.Customers.FirstOrDefault(x => x.Id == IdClient);
+                    var employee = dbcontext.Employees.FirstOrDefault(x => x.Id == IdEmployee); 
 
-            await _context.Requests.AddAsync(request);
-            await _context.SaveChangesAsync();
+                    Request request = new Request
+                    {
+                        ClientId = IdClient,
+                        ClientName = client!.Name,
+                        AssignedEmployee = IdEmployee,
+                        EmployeeName = employee!.Name,
+                        Status = Status.ToString(),
+                        Description = Description,
+                        CreateRequestDate = DateTime.Now,
+                        Priority = PriorityRequest,
+                        Category = CategoryRequest
+                    };
 
+                    dbcontext.Requests.Add(request);
+                    dbcontext.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback(); // откат транзакции при ошибке
+                    throw;
+
+                }
+            }
+
+            // закрытие окна ввода данных
             await _navigation.PopModalAsync();
         }
 
         [RelayCommand]
-        async Task TextChanged()
+        async Task ClickCancelButton()
         {
-            var client = await _context.Customers.FindAsync(IdClient);
-            if (client == null)
-                return;
-            NameClient = client.Name;
+            await _navigation.PopModalAsync();
         }
+
+
     }
 }

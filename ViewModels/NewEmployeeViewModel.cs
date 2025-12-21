@@ -2,15 +2,14 @@
 using CommunityToolkit.Mvvm.Input;
 using customer_request_accounting_system.EntityFramework;
 using customer_request_accounting_system.Models;
-using System.Threading.Tasks;
 
 namespace customer_request_accounting_system.ViewModels
 {
-    public partial class NewCustomerViewModel : ObservableObject
+    public partial class NewEmployeeViewModel : ObservableObject
     {
         private readonly INavigation _navigation;
         private readonly AppDbContext _context;
-        public NewCustomerViewModel(INavigation navigation, AppDbContext context)
+        public NewEmployeeViewModel(INavigation navigation, AppDbContext context)
         {
             _navigation = navigation;
             _context = context;
@@ -21,22 +20,29 @@ namespace customer_request_accounting_system.ViewModels
         [ObservableProperty]
         public string phone;
         [ObservableProperty]
-        public string city;
-
+        public string email;
+        [ObservableProperty]
+        public string department;
+        [ObservableProperty]
+        public string post;
+        [ObservableProperty]
+        public DateTime dateOfEmployment;
 
         [RelayCommand]
-        private async Task ClickOkButton()
+        async Task ClickOkButton()
         {
-            Customer customer = new Customer
+            Employee employee = new Employee
             {
                 Name = Name,
                 Phone = Phone,
-                CityOfResidence = City
+                Email = Email,
+                Department = Department,
+                Post = Post,
+                DateOfEmployment = DateOfEmployment
             };
-            _context.Customers.Add(customer);
+            _context.Employees.Add(employee);
             _context.SaveChanges();
 
-            // закрытие окна ввода данных
             await _navigation.PopModalAsync();
         }
 
@@ -45,7 +51,5 @@ namespace customer_request_accounting_system.ViewModels
         {
             await _navigation.PopModalAsync();
         }
-
-
     }
 }
