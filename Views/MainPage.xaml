@@ -24,7 +24,8 @@
             <RowDefinition />
             <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
-        <ScrollView Grid.Row="0">
+
+        <ScrollView Grid.Row="1">
             <ListView ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -50,13 +51,11 @@
             </ListView>
         </ScrollView>
 
-        <Grid Grid.Row="1" ColumnDefinitions="150,*" VerticalOptions="Center" >
+        <Grid Grid.Row="2" ColumnDefinitions="150,*" VerticalOptions="Center" >
 
-            <!-- Левая кнопка -->
-           <Button Text="Обновить список" Margin="10" FontSize="12" Command="{Binding UpdateListButtonCommand}" 
-            HorizontalOptions="Start" Grid.Column="0"/> 
+            <Button Text="Обновить список" Margin="10" FontSize="12" Command="{Binding UpdateListButtonCommand}" 
+            HorizontalOptions="Start" Grid.Column="0"/>
 
-            <!-- Остальные кнопки, выровненные по центру -->
             <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1">
                 <Button Text="Изменить" Margin="10" Command="{Binding EditButtonCommand}" />
                 <Button Text="Удалить" Margin="10" Command="{Binding DeleteButtonCommand}" />

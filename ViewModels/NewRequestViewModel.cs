@@ -2,17 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using customer_request_accounting_system.EntityFramework;
 using customer_request_accounting_system.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace customer_request_accounting_system.ViewModels
 {
-
     public partial class NewRequestViewModel : ObservableObject
     {
         private readonly INavigation _navigation;
@@ -25,32 +17,33 @@ namespace customer_request_accounting_system.ViewModels
         }
 
         [ObservableProperty]
-        public int idClient;
+        public int? idClient;
         [ObservableProperty]
-        public string nameClient;
+        public string? nameClient;
         [ObservableProperty]
         public int idEmployee;
         [ObservableProperty]
-        public string nameEmployee;
+        public string? nameEmployee;
         [ObservableProperty]
-        public string status;
+        public string? status;
         [ObservableProperty]
-        public string description;
+        public string? description;
         [ObservableProperty]
-        public string priorityRequest;
+        public string? priorityRequest;
         [ObservableProperty]
-        public string categoryRequest;
+        public string? categoryRequest;
 
         [RelayCommand]
         async Task ClickOkButton()
         {
+            AssignValues(); //HACK 
             using (var dbcontext = new AppDbContext())
             {
                 var transaction = dbcontext.Database.BeginTransaction();
                 try
                 {
                     var client = dbcontext.Customers.FirstOrDefault(x => x.Id == IdClient);
-                    var employee = dbcontext.Employees.FirstOrDefault(x => x.Id == IdEmployee); 
+                    var employee = dbcontext.Employees.FirstOrDefault(x => x.Id == IdEmployee);
 
                     Request request = new Request
                     {
@@ -58,7 +51,7 @@ namespace customer_request_accounting_system.ViewModels
                         ClientName = client!.Name,
                         AssignedEmployee = IdEmployee,
                         EmployeeName = employee!.Name,
-                        Status = Status.ToString(),
+                        Status = Status,
                         Description = Description,
                         CreateRequestDate = DateTime.Now,
                         Priority = PriorityRequest,
@@ -86,7 +79,65 @@ namespace customer_request_accounting_system.ViewModels
         {
             await _navigation.PopModalAsync();
         }
+        private void AssignValues() //HACK
+        {
+            switch (Status)
+            {
+                case "0":
+                    Status = "Новая";
+                    break;
+                case "1":
+                    Status = "В процессе";
+                    break;
+                case "2":
+                    Status = "Решена";
+                    break;
+                case "3":
+                    Status = "Закрыта";
+                    break;
+            }
 
+            switch (PriorityRequest)
+            {
+                case "0":
+                    PriorityRequest = "Низкий";
+                    break;
+                case "1":
+                    PriorityRequest = "Средний";
+                    break;
+                case "2":
+                    PriorityRequest = "Высокий";
+                    break;
+            }
+
+            switch (CategoryRequest)
+            {
+                case "0":
+                    CategoryRequest = "Технические неисправнеости";
+                    break;
+                case "1":
+                    CategoryRequest = "Программные сбои";
+                    break;
+                case "2":
+                    CategoryRequest = "Запросы информации";
+                    break;
+                case "3":
+                    CategoryRequest = "Конфигурационные запросы";
+                    break;
+                case "4":
+                    CategoryRequest = "Поддержка клиентов";
+                    break;
+                case "5":
+                    CategoryRequest = "Обучение и консультации";
+                    break;
+                case "6":
+                    CategoryRequest = "Финансово-юридические вопросы";
+                    break;
+                case "7":
+                    CategoryRequest = "Дополнительные услуги";
+                    break;
+            }
+        }
 
     }
 }

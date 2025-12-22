@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using customer_request_accounting_system.EntityFramework;
 using customer_request_accounting_system.Models;
-using System.Threading.Tasks;
 
 namespace customer_request_accounting_system.ViewModels
 {
@@ -10,6 +9,7 @@ namespace customer_request_accounting_system.ViewModels
     {
         private readonly INavigation _navigation;
         private readonly AppDbContext _context;
+
         public NewCustomerViewModel(INavigation navigation, AppDbContext context)
         {
             _navigation = navigation;
@@ -17,11 +17,11 @@ namespace customer_request_accounting_system.ViewModels
         }
 
         [ObservableProperty]
-        public string name;
+        public string? name;
         [ObservableProperty]
-        public string phone;
+        public string? phone;
         [ObservableProperty]
-        public string city;
+        public string? city;
 
 
         [RelayCommand]
@@ -45,7 +45,5 @@ namespace customer_request_accounting_system.ViewModels
         {
             await _navigation.PopModalAsync();
         }
-
-
     }
 }

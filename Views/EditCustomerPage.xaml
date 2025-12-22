@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="customer_request_accounting_system.Views.NewEmployeePage"
+             x:Class="customer_request_accounting_system.Views.EditCustomerPage"
              xmlns:viewModel="clr-namespace:customer_request_accounting_system.ViewModels"
-             x:DataType="viewModel:NewEmployeeViewModel"
-             Title="Добавление нового сотрудника">
+             x:DataType="viewModel:EditCustomerViewModel"
+             Title="Редактирование клиента">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Label">
@@ -26,27 +26,13 @@
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="3">
             <Label Text="ФИО" />
-            <Entry Text="{Binding Name}" Margin="0,0,0,5"/>
+            <Entry Text="{Binding Customer.Name}" Margin="0,0,0,5"/>
 
             <Label Text="Номер телефона"/>
-            <Entry Text="{Binding Phone}" Margin="0,0,0,5"/>
-            
-            <Label Text="Почта"/>
-            <Entry Text="{Binding Email}" Margin="0,0,0,5"/>
+            <Entry Text="{Binding Customer.Phone}" Margin="0,0,0,5"/>
 
-            <Label Text="Должность"/>
-            <Picker SelectedIndex="{Binding Post}"  Margin="0,0,0,5">
-               <Picker.Items>
-                    <x:String>Младший специалист тех. поддержки</x:String>
-                    <x:String>Старший специалист тех. поддержки</x:String>
-                    <x:String>Администратор системы</x:String>
-                    <x:String>Инженер тех. поддержки</x:String>
-                    <x:String>Руководитель группы тех. поддержки</x:String>
-                </Picker.Items> 
-            </Picker>
-
-            <Label Text="Дата приема на работу"/>
-            <Entry Text="{Binding DateOfEmployment}" Margin="0,0,0,5"/>
+            <Label Text="Город"/>
+            <Entry Text="{Binding Customer.City}" Margin="0,0,0,5"/>
 
             <HorizontalStackLayout Padding="10" HorizontalOptions="Center" VerticalOptions="Center">
                 <Button Text="Ок" Margin="10" Command="{Binding ClickOkButtonCommand}"/>

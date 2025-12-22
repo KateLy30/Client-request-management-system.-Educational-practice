@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace customer_request_accounting_system.ViewModels
 {
-    public partial class EmployeesListViewModel : ObservableObject 
+    public partial class EmployeesListViewModel : ObservableObject
     {
         private readonly AppDbContext _context;
         private readonly INavigation _navigation;
@@ -19,10 +19,11 @@ namespace customer_request_accounting_system.ViewModels
         }
 
         [ObservableProperty]
-        public ObservableCollection<Employee> employees;
+        public ObservableCollection<Employee>? employees;
         [ObservableProperty]
         public Employee? selectedEmployee;
 
+        // метод обновления списка
         [RelayCommand]
         private void LoadEmployees()
         {
@@ -63,9 +64,13 @@ namespace customer_request_accounting_system.ViewModels
 
         // кнопка редактирования данных выбранного клиента клиента
         [RelayCommand]
-        private void EditButton()
+        async Task EditButton()
         {
+            if (SelectedEmployee == null) return;
+            var existingEmployee = _context.Employees.Find(SelectedEmployee.Id);
 
+            if (existingEmployee != null)
+                await _navigation.PushModalAsync(new EditEmployeePage(SelectedEmployee));
         }
     }
 }

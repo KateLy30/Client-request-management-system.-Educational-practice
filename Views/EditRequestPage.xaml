@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="customer_request_accounting_system.Views.NewRequestPage"
-             Title="Создание новой заявки"
-             xmlns:viewModel="clr-namespace:customer_request_accounting_system.ViewModels"
-             x:DataType="viewModel:NewRequestViewModel">
+             x:Class="customer_request_accounting_system.Views.EditRequestPage"
+             Title="Редактирование заявки">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Label">
@@ -26,10 +24,11 @@
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="3">
             <Label Text="Идентификатор клиента" />
-            <Entry Text="{Binding IdClient, Mode=TwoWay}"/>
+            <Entry Text="{Binding Request.ClientId, Mode=TwoWay}" IsReadOnly="True"/>
+            <Entry Text="{Binding Request.ClientName, Mode=TwoWay}" IsReadOnly="True" Margin="0,0,0,5"/>
 
             <Label Text="Статус заявки"/>
-            <Picker SelectedItem="0" SelectedIndex="{Binding Status}" Margin="0,0,0,5">
+            <Picker SelectedItem="0" SelectedIndex="{Binding Request.Status}" Margin="0,0,0,5">
                 <Picker.Items>
                     <x:String>Новая</x:String>
                     <x:String>В процессе</x:String>
@@ -39,13 +38,14 @@
             </Picker>
 
             <Label Text="Описание"/>
-            <Editor Text="{Binding Description}" AutoSize="TextChanges" Margin="0,0,0,5"/>
+            <Editor Text="{Binding Request.Description}" AutoSize="TextChanges" Margin="0,0,0,5"/>
 
             <Label Text="Идентификатор ответственного сотрудника"/>
-            <Entry Text="{Binding IdEmployee}"/>
+            <Entry Text="{Binding Request.AssignedEmployee}" IsReadOnly="True"/>
+            <Entry Text="{Binding Request.EmployeeName, Mode=TwoWay}" IsReadOnly="True" Margin="0,0,0,5"/>
 
             <Label Text="Приоритет"/>
-            <Picker SelectedIndex="{Binding PriorityRequest}" Margin="0,0,0,5">
+            <Picker SelectedIndex="{Binding Request.Priority}" Margin="0,0,0,5">
                 <Picker.Items>
                     <x:String>Низкий</x:String>
                     <x:String>Средний</x:String>
@@ -54,7 +54,7 @@
             </Picker>
 
             <Label Text="Категория"/>
-            <Picker SelectedIndex="{Binding CategoryRequest}" Margin="0,0,0,5">
+            <Picker SelectedIndex="{Binding Request.Category}" >
                 <Picker.Items>
                     <x:String>Технические неисправнеости</x:String>
                     <x:String>Программные сбои</x:String>
@@ -72,6 +72,6 @@
                 <Button Text="Отмена" Margin="10" Command="{Binding ClickCancelButtonCommand}"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
-        
+
     </ScrollView>
 </ContentPage>

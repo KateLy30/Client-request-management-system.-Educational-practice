@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using customer_request_accounting_system.EntityFramework;
 using customer_request_accounting_system.Models;
+using System.Collections.ObjectModel;
 
 namespace customer_request_accounting_system.ViewModels
 {
@@ -16,27 +17,43 @@ namespace customer_request_accounting_system.ViewModels
         }
 
         [ObservableProperty]
-        public string name;
+        public string? name;
         [ObservableProperty]
-        public string phone;
+        public string? phone;
         [ObservableProperty]
-        public string email;
+        public string? email;
         [ObservableProperty]
-        public string department;
-        [ObservableProperty]
-        public string post;
+        public string? post;
         [ObservableProperty]
         public DateTime dateOfEmployment;
 
         [RelayCommand]
         async Task ClickOkButton()
         {
+            switch (Post) //HACK
+            {
+                case "0":
+                    Post = "Младший специалист тех. поддержки";
+                    break;
+                case "1":
+                    Post = "Старший специалист тех. поддержки";
+                    break;
+                case "2":
+                    Post = "Администратор системы";
+                    break;
+                case "3":
+                    Post = "Инженер тех. поддержки";
+                    break;
+                case "4":
+                    Post = "Руководитель группы тех. поддержки";
+                    break;
+            }
+
             Employee employee = new Employee
             {
                 Name = Name,
                 Phone = Phone,
                 Email = Email,
-                Department = Department,
                 Post = Post,
                 DateOfEmployment = DateOfEmployment
             };

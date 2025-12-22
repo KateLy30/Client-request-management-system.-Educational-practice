@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using customer_request_accounting_system.EntityFramework;
 using customer_request_accounting_system.Models;
 using customer_request_accounting_system.Views;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
 namespace customer_request_accounting_system.ViewModels
@@ -20,7 +19,7 @@ namespace customer_request_accounting_system.ViewModels
         }
 
         [ObservableProperty]
-        private ObservableCollection<Customer> customers;
+        private ObservableCollection<Customer>? customers;
         [ObservableProperty]
         public Customer? selectedCustomer;
 
@@ -65,9 +64,12 @@ namespace customer_request_accounting_system.ViewModels
 
         // кнопка редактирования данных выбранного клиента клиента
         [RelayCommand]
-        private void EditButton()
+        private async Task EditButton()
         {
-
+            if(SelectedCustomer == null) return;
+            var existingCustomer = _context.Customers.Find(SelectedCustomer.Id);
+            if (existingCustomer != null)
+                await _navigation.PushModalAsync(new EditCustomerPage(SelectedCustomer));
         }
     }
 }
